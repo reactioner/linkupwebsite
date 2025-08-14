@@ -47,19 +47,53 @@ export interface AuthResponse {
 
 export const authService = {
   /**
-   * Initiates LinkedIn OAuth flow
+   * Mock LinkedIn authentication - immediately logs in with test account
    */
-  initiateLinkedInAuth: (): void => {
-    window.location.href = `${API_BASE_URL}/auth/linkedin`;
+  initiateLinkedInAuth: (): Promise<AuthResponse> => {
+    // Create mock user data for testing
+    const mockUser: User = {
+      id: 'test-user-123',
+      email: 'test@linkup.com',
+      name: 'Alex Johnson',
+      linkedinId: 'mock-linkedin-id',
+      profilePicture: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+      isVerified: true,
+      hasCompletedOnboarding: false,
+    };
+
+    const mockToken = 'mock-jwt-token-' + Date.now();
+
+    // Simulate API delay
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          user: mockUser,
+          token: mockToken,
+        });
+      }, 500);
+    });
   },
 
   /**
-   * Fetches current authenticated user profile
+   * Mock getCurrentUser - returns test user data
    * @returns Promise resolving to user data
    */
   getCurrentUser: async (): Promise<{ data: User }> => {
-    const response = await authApi.get<User>('/auth/me');
-    return { data: response.data };
+    const mockUser: User = {
+      id: 'test-user-123',
+      email: 'test@linkup.com',
+      name: 'Alex Johnson',
+      linkedinId: 'mock-linkedin-id',
+      profilePicture: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
+      isVerified: true,
+      hasCompletedOnboarding: false,
+    };
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ data: mockUser });
+      }, 300);
+    });
   },
 
   /**

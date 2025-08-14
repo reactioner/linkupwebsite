@@ -33,9 +33,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Show loading spinner while checking authentication
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-primary-50 to-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center">
         <div className="text-center space-y-4">
-          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin mx-auto" />
           <p className="text-gray-600">Loading...</p>
         </div>
       </div>
@@ -52,9 +52,9 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <Navigate to="/onboarding" replace />;
   }
 
-  // Redirect to dashboard if user has completed onboarding but is trying to access onboarding
+  // Redirect to matching if user has completed onboarding but is trying to access onboarding
   if (user && user.hasCompletedOnboarding && requireOnboarding) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/match" replace />;
   }
 
   return <>{children}</>;

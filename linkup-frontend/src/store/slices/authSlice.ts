@@ -48,6 +48,22 @@ export const getCurrentUser = createAsyncThunk(
 );
 
 /**
+ * Async thunk to handle mock LinkedIn login
+ */
+export const mockLinkedInLogin = createAsyncThunk(
+  'auth/mockLinkedInLogin',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await authService.initiateLinkedInAuth();
+      localStorage.setItem('linkup_token', response.token);
+      return response;
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || 'Login failed');
+    }
+  }
+);
+
+/**
  * Async thunk to handle logout
  */
 export const logout = createAsyncThunk(
@@ -82,9 +98,31 @@ const authSlice = createSlice({
       state.error = null;
       localStorage.removeItem('linkup_token');
     },
+    completeOnboarding: (state) => {
+      if (state.user) {
+        state.user.hasCompletedOnboarding = true;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
+      // mockLinkedInLogin
+      .addCase(mockLinkedInLogin.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(mockLinkedInLogin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isAuthenticated = true;
+        state.error = null;
+      })
+      .addCase(mockLinkedInLogin.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+        state.isAuthenticated = false;
+      })
       // getCurrentUser
       .addCase(getCurrentUser.pending, (state) => {
         state.isLoading = true;
@@ -122,5 +160,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { setToken, clearError, resetAuth } = authSlice.actions;
+export const { setToken, clearError, resetAuth, completeOnboarding } = authSlice.actions;
 export default authSlice.reducer;
