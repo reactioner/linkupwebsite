@@ -1,0 +1,11 @@
+# Task ID: 4
+# Title: LinkedIn Developer App Setup
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Create LinkedIn Developer Application and obtain OAuth credentials
+# Details:
+Register application in LinkedIn Developer Portal. Configure OAuth 2.0 with scopes: r_liteprofile, r_emailaddress. Set up redirect URLs. Obtain Client ID and Client Secret.
+
+# Test Strategy:
+

@@ -1,0 +1,11 @@
+# Task ID: 3
+# Title: Database Schema Design with Prisma
+# Status: pending
+# Dependencies: 2
+# Priority: high
+# Description: Initialize Prisma and define the complete database schema
+# Details:
+Set up Prisma with PostgreSQL. Define all models: User, LinkedinProfile, WorkExperience, DatingProfile, UserPhoto, Swipe, Match, Message. Create enums and relationships. Run initial migration.
+
+# Test Strategy:
+

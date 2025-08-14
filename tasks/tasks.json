@@ -1,0 +1,101 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Frontend Project Initialization",
+        "description": "Set up the frontend project structure using Vite with React 18+ and TypeScript",
+        "status": "in-progress",
+        "priority": "high",
+        "details": "Create a new frontend project using Vite with TypeScript template. Install core dependencies: react-router-dom, @reduxjs/toolkit, react-redux, framer-motion, react-hook-form, yup, tailwindcss, axios. Configure package.json with fixed versions (no carets/tildes). Create tsconfig.json with strict mode enabled.",
+        "phase": "Phase 1: Foundation Setup",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Vite React TypeScript Project",
+            "description": "Initialize new Vite project with React and TypeScript template",
+            "details": "Run 'npm create vite@latest linkup-frontend -- --template react-ts' and set up basic project structure",
+            "status": "in-progress",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 2,
+            "title": "Install Core Dependencies",
+            "description": "Install all required frontend dependencies with fixed versions",
+            "details": "Install react-router-dom, @reduxjs/toolkit, react-redux, framer-motion, react-hook-form, yup, tailwindcss, axios with exact versions (no carets/tildes)",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 3,
+            "title": "Configure TypeScript Strict Mode",
+            "description": "Set up tsconfig.json with strict mode enabled",
+            "details": "Configure TypeScript with strict mode, proper path mapping, and optimal settings for React development",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          },
+          {
+            "id": 4,
+            "title": "Setup Project Folder Structure",
+            "description": "Create organized folder structure following PRD specifications",
+            "details": "Create components/, pages/, store/, types/, utils/, services/, assets/ folders with proper organization",
+            "status": "pending",
+            "dependencies": [],
+            "parentTaskId": 1
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Backend Project Initialization",
+        "description": "Set up the backend project structure using Node.js 18+ with TypeScript and Express",
+        "status": "pending",
+        "priority": "high",
+        "details": "Initialize Node.js project with TypeScript. Install dependencies: express, prisma, @prisma/client, cors, dotenv, passport, passport-linkedin-oauth2, jsonwebtoken, bcrypt. Create .nvmrc file with v18. Configure tsconfig.json with strict mode.",
+        "phase": "Phase 1: Foundation Setup"
+      },
+      {
+        "id": 3,
+        "title": "Database Schema Design with Prisma",
+        "description": "Initialize Prisma and define the complete database schema",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "details": "Set up Prisma with PostgreSQL. Define all models: User, LinkedinProfile, WorkExperience, DatingProfile, UserPhoto, Swipe, Match, Message. Create enums and relationships. Run initial migration.",
+        "phase": "Phase 1: Foundation Setup"
+      },
+      {
+        "id": 4,
+        "title": "LinkedIn Developer App Setup",
+        "description": "Create LinkedIn Developer Application and obtain OAuth credentials",
+        "status": "pending",
+        "priority": "high",
+        "details": "Register application in LinkedIn Developer Portal. Configure OAuth 2.0 with scopes: r_liteprofile, r_emailaddress. Set up redirect URLs. Obtain Client ID and Client Secret.",
+        "phase": "Phase 1: Foundation Setup"
+      },
+      {
+        "id": 5,
+        "title": "LinkedIn OAuth Integration Backend",
+        "description": "Implement Passport.js LinkedIn strategy for OAuth authentication",
+        "status": "pending",
+        "priority": "high",
+        "dependencies": [
+          2,
+          4
+        ],
+        "details": "Configure Passport.js with LinkedIn OAuth strategy. Implement /auth/linkedin and /auth/linkedin/callback routes. Handle OAuth flow and JWT generation.",
+        "phase": "Phase 1: Foundation Setup"
+      }
+    ],
+    "metadata": {
+      "created": "2025-08-01T23:24:43.312Z",
+      "updated": "2025-08-01T23:25:29.767Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

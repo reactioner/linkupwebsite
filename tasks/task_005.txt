@@ -1,0 +1,11 @@
+# Task ID: 5
+# Title: LinkedIn OAuth Integration Backend
+# Status: pending
+# Dependencies: 2, 4
+# Priority: high
+# Description: Implement Passport.js LinkedIn strategy for OAuth authentication
+# Details:
+Configure Passport.js with LinkedIn OAuth strategy. Implement /auth/linkedin and /auth/linkedin/callback routes. Handle OAuth flow and JWT generation.
+
+# Test Strategy:
+

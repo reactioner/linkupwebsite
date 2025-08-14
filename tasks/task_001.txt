@@ -1,0 +1,37 @@
+# Task ID: 1
+# Title: Frontend Project Initialization
+# Status: in-progress
+# Dependencies: None
+# Priority: high
+# Description: Set up the frontend project structure using Vite with React 18+ and TypeScript
+# Details:
+Create a new frontend project using Vite with TypeScript template. Install core dependencies: react-router-dom, @reduxjs/toolkit, react-redux, framer-motion, react-hook-form, yup, tailwindcss, axios. Configure package.json with fixed versions (no carets/tildes). Create tsconfig.json with strict mode enabled.
+
+# Test Strategy:
+
+
+# Subtasks:
+## 1. Create Vite React TypeScript Project [pending]
+### Dependencies: None
+### Description: Initialize new Vite project with React and TypeScript template
+### Details:
+Run 'npm create vite@latest linkup-frontend -- --template react-ts' and set up basic project structure
+
+## 2. Install Core Dependencies [pending]
+### Dependencies: None
+### Description: Install all required frontend dependencies with fixed versions
+### Details:
+Install react-router-dom, @reduxjs/toolkit, react-redux, framer-motion, react-hook-form, yup, tailwindcss, axios with exact versions (no carets/tildes)
+
+## 3. Configure TypeScript Strict Mode [pending]
+### Dependencies: None
+### Description: Set up tsconfig.json with strict mode enabled
+### Details:
+Configure TypeScript with strict mode, proper path mapping, and optimal settings for React development
+
+## 4. Setup Project Folder Structure [pending]
+### Dependencies: None
+### Description: Create organized folder structure following PRD specifications
+### Details:
+Create components/, pages/, store/, types/, utils/, services/, assets/ folders with proper organization
+

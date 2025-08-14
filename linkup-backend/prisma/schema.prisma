@@ -1,0 +1,322 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Enums
+enum GenderEnum {
+  MALE
+  FEMALE
+  NON_BINARY
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+
+enum HabitEnum {
+  NON_SMOKER
+  OCCASIONAL_SMOKER
+  REGULAR_SMOKER
+  NON_DRINKER
+  OCCASIONAL_DRINKER
+  REGULAR_DRINKER
+  SOCIAL_DRINKER
+}
+
+enum EducationEnum {
+  HIGH_SCHOOL
+  SOME_COLLEGE
+  ASSOCIATES
+  BACHELORS
+  MASTERS
+  DOCTORATE
+  PROFESSIONAL
+  OTHER
+}
+
+enum RelationshipEnum {
+  CASUAL_DATING
+  SERIOUS_RELATIONSHIP
+  MARRIAGE
+  FRIENDSHIP
+  NETWORKING
+}
+
+enum SwipeActionEnum {
+  LIKE
+  DISLIKE
+  SUPER_LIKE
+}
+
+enum MessageTypeEnum {
+  TEXT
+  IMAGE
+  GIF
+  VOICE
+  VIDEO
+}
+
+enum SubscriptionTypeEnum {
+  FREE
+  PREMIUM
+  PREMIUM_PLUS
+}
+
+enum PhotoTypeEnum {
+  PROFILE
+  ADDITIONAL
+  LINKEDIN_PROFILE
+}
+
+enum MatchStatusEnum {
+  ACTIVE
+  ARCHIVED
+  BLOCKED
+  EXPIRED
+}
+
+// Models
+model User {
+  id                String              @id @default(uuid())
+  email             String              @unique
+  isActive          Boolean             @default(true)
+  isVerified        Boolean             @default(false)
+  subscriptionType  SubscriptionTypeEnum @default(FREE)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  lastActiveAt      DateTime            @default(now())
+
+  // Relations
+  linkedinProfile   LinkedinProfile?
+  datingProfile     DatingProfile?
+  photos            UserPhoto[]
+  sentSwipes        Swipe[]             @relation("UserSwipes")
+  receivedSwipes    Swipe[]             @relation("SwipedUser")
+  sentMatches       Match[]             @relation("UserMatches")
+  receivedMatches   Match[]             @relation("MatchedUser")
+  sentMessages      Message[]           @relation("MessageSender")
+  receivedMessages  Message[]           @relation("MessageReceiver")
+  reportsMade       Report[]            @relation("ReportsMade")
+  reportsReceived   Report[]            @relation("ReportsReceived")
+  sessions          UserSession[]
+
+  @@map("users")
+}
+
+model LinkedinProfile {
+  id                String    @id @default(uuid())
+  userId            String    @unique
+  linkedinId        String    @unique
+  firstName         String
+  lastName          String
+  headline          String?
+  summary           String?
+  profilePictureUrl String?
+  publicProfileUrl  String?
+  industry          String?
+  location          String?
+  connectionCount   Int?
+  isVerified        Boolean   @default(false)
+  linkedinData      Json?     // Store additional LinkedIn data
+  lastSyncAt        DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  user              User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workExperiences   WorkExperience[]
+  educationEntries  Education[]
+
+  @@map("linkedin_profiles")
+}
+
+model WorkExperience {
+  id                String            @id @default(uuid())
+  linkedinProfileId String
+  companyName       String
+  position          String
+  description       String?
+  startDate         DateTime?
+  endDate           DateTime?
+  isCurrent         Boolean           @default(false)
+  location          String?
+  companyLogoUrl    String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  linkedinProfile   LinkedinProfile   @relation(fields: [linkedinProfileId], references: [id], onDelete: Cascade)
+
+  @@map("work_experiences")
+}
+
+model Education {
+  id                String            @id @default(uuid())
+  linkedinProfileId String
+  schoolName        String
+  degree            String?
+  fieldOfStudy      String?
+  startYear         Int?
+  endYear           Int?
+  description       String?
+  schoolLogoUrl     String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  linkedinProfile   LinkedinProfile   @relation(fields: [linkedinProfileId], references: [id], onDelete: Cascade)
+
+  @@map("education")
+}
+
+model DatingProfile {
+  id                String            @id @default(uuid())
+  userId            String            @unique
+  bio               String?
+  age               Int?
+  gender            GenderEnum?
+  lookingFor        RelationshipEnum[]
+  interests         String[]          // Array of interests
+  maxDistance       Int?              @default(50) // km
+  minAge            Int?              @default(18)
+  maxAge            Int?              @default(99)
+  smokingHabits     HabitEnum[]
+  drinkingHabits    HabitEnum[]
+  education         EducationEnum?
+  height            Int?              // cm
+  profession        String?
+  company           String?
+  isProfileComplete Boolean           @default(false)
+  isVisible         Boolean           @default(true)
+  latitude          Float?
+  longitude         Float?
+  city              String?
+  country           String?
+  timezone          String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  // Relations
+  user              User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("dating_profiles")
+}
+
+model UserPhoto {
+  id          String        @id @default(uuid())
+  userId      String
+  url         String
+  type        PhotoTypeEnum @default(ADDITIONAL)
+  isMain      Boolean       @default(false)
+  order       Int           @default(0)
+  isApproved  Boolean       @default(false)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_photos")
+}
+
+model Swipe {
+  id          String          @id @default(uuid())
+  userId      String          // User who made the swipe
+  swipedUserId String         // User who was swiped
+  action      SwipeActionEnum
+  createdAt   DateTime        @default(now())
+
+  // Relations
+  user        User            @relation("UserSwipes", fields: [userId], references: [id], onDelete: Cascade)
+  swipedUser  User            @relation("SwipedUser", fields: [swipedUserId], references: [id], onDelete: Cascade)
+
+  // Ensure a user can only swipe once on another user
+  @@unique([userId, swipedUserId])
+  @@map("swipes")
+}
+
+model Match {
+  id          String        @id @default(uuid())
+  userId      String        // First user in the match
+  matchedUserId String      // Second user in the match
+  status      MatchStatusEnum @default(ACTIVE)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  lastMessageAt DateTime?
+
+  // Relations
+  user        User          @relation("UserMatches", fields: [userId], references: [id], onDelete: Cascade)
+  matchedUser User          @relation("MatchedUser", fields: [matchedUserId], references: [id], onDelete: Cascade)
+  messages    Message[]
+
+  // Ensure uniqueness - users can only have one match between them
+  @@unique([userId, matchedUserId])
+  @@map("matches")
+}
+
+model Message {
+  id          String        @id @default(uuid())
+  matchId     String
+  senderId    String
+  receiverId  String
+  content     String
+  type        MessageTypeEnum @default(TEXT)
+  isRead      Boolean       @default(false)
+  readAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Relations
+  match       Match         @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  sender      User          @relation("MessageSender", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User          @relation("MessageReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Report {
+  id          String    @id @default(uuid())
+  reporterId  String    // User making the report
+  reportedId  String    // User being reported
+  reason      String
+  description String?
+  isResolved  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  reporter    User      @relation("ReportsMade", fields: [reporterId], references: [id], onDelete: Cascade)
+  reported    User      @relation("ReportsReceived", fields: [reportedId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+model BlacklistedToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("blacklisted_tokens")
+}
+
+model UserSession {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_sessions")
+}

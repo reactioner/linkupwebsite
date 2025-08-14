@@ -1,0 +1,11 @@
+# Task ID: 2
+# Title: Backend Project Initialization
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Set up the backend project structure using Node.js 18+ with TypeScript and Express
+# Details:
+Initialize Node.js project with TypeScript. Install dependencies: express, prisma, @prisma/client, cors, dotenv, passport, passport-linkedin-oauth2, jsonwebtoken, bcrypt. Create .nvmrc file with v18. Configure tsconfig.json with strict mode.
+
+# Test Strategy:
+
