@@ -221,6 +221,17 @@ body {
 .via-black\/60 { --tw-gradient-via: rgba(0, 0, 0, 0.6); }
 .text-white\/90 { color: rgba(255, 255, 255, 0.9); }
 
+/* Golden/Yellow colors for premium profiles */
+.bg-yellow-400 { background-color: #facc15; }
+.bg-yellow-500 { background-color: #eab308; }
+.text-yellow-400 { color: #facc15; }
+.text-yellow-900 { color: #713f12; }
+.border-yellow-300 { border-color: #fde047; }
+.border-yellow-400 { border-color: #facc15; }
+.shadow-yellow-200 { box-shadow: 0 25px 50px -12px rgba(254, 240, 138, 0.25); }
+.from-yellow-400 { --tw-gradient-from: #facc15; }
+.to-yellow-500 { --tw-gradient-to: #eab308; }
+
 /* Font sizes */
 .text-6xl { font-size: 3.75rem; }
 

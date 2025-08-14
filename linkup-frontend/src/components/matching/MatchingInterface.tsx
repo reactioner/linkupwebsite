@@ -140,6 +140,11 @@ const MatchingInterface: React.FC = () => {
         <div className={`w-full bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 ${
           swipeDirection === 'left' ? 'transform -translate-x-full opacity-0' : 
           swipeDirection === 'right' ? 'transform translate-x-full opacity-0' : ''
+        } ${
+          // Golden border for User 1 (Anant) and User 5 (King T.)
+          currentProfile.id === 1 || currentProfile.id === 5 
+            ? 'border-4 border-yellow-400 shadow-yellow-200' 
+            : ''
         }`}>
           {/* Profile Image */}
           <div className="relative h-96">
@@ -148,11 +153,23 @@ const MatchingInterface: React.FC = () => {
               alt={currentProfile.name}
               className="w-full h-full object-cover"
             />
+            
+            {/* Golden Star Badge for Premium Profiles */}
+            {(currentProfile.id === 1 || currentProfile.id === 5) && (
+              <div className="absolute top-4 right-4 bg-yellow-400 rounded-full p-2 shadow-lg">
+                <span className="text-yellow-900 text-xl font-bold">⭐</span>
+              </div>
+            )}
+            
             {/* Dark overlay for better text readability */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4">
               <div className="space-y-2">
                 <h2 className="text-2xl font-bold text-white drop-shadow-lg">
                   {currentProfile.name}, {currentProfile.age}
+                  {/* Golden star next to name for premium profiles */}
+                  {(currentProfile.id === 1 || currentProfile.id === 5) && (
+                    <span className="text-yellow-400 ml-2">⭐</span>
+                  )}
                 </h2>
                 <p className="text-white font-medium drop-shadow-md">
                   {currentProfile.title} at {currentProfile.company}
@@ -167,9 +184,19 @@ const MatchingInterface: React.FC = () => {
           {/* Profile Details */}
           <div className="p-6 space-y-5">
             {/* Prominent Tagline */}
-            <div className="bg-gray-900 rounded-xl p-4 shadow-lg">
-              <p className="text-white font-bold text-xl text-center">
+            <div className={`rounded-xl p-4 shadow-lg ${
+              currentProfile.id === 1 || currentProfile.id === 5
+                ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 border-2 border-yellow-300'
+                : 'bg-gray-900'
+            }`}>
+              <p className={`font-bold text-xl text-center ${
+                currentProfile.id === 1 || currentProfile.id === 5
+                  ? 'text-yellow-900'
+                  : 'text-white'
+              }`}>
+                {(currentProfile.id === 1 || currentProfile.id === 5) && '⭐ '}
                 "{currentProfile.tagline}"
+                {(currentProfile.id === 1 || currentProfile.id === 5) && ' ⭐'}
               </p>
             </div>
             
